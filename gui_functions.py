@@ -41,3 +41,38 @@ def error_dialog(message, title='error'):
         #don't want to build an app unless its necessary
         error_dialog(message, title)
 
+        
+# Create a "wxpython" file dialog to pick a file
+def wx_pick_file(filetype_wildcard):
+    try:
+        dlg = wx.FileDialog(
+            parent=None,
+            message='Open File',
+            wildcard=filetype_wildcard,
+            defaultDir='%Documents%',
+            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST
+        )
+        if dlg.ShowModal() == wx.ID_CANCEL:
+            return None
+        return dlg.GetPath()
+    except wx._core.PyNoAppError:
+        #don't want to build an app unless its necessary
+        app = wx.App()
+        wx_pick_file(filetype_wildcard)
+
+        
+# Create a "wxpython" file dialog to pick a file
+def wx_pick_directory():
+    try:
+        dlg = wx.DirDialog(
+            parent=None,
+            message='Open Folder',
+            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST
+        )
+        if dlg.ShowModal() == wx.ID_CANCEL:
+            return None
+        return dlg.GetPath()
+    except wx._core.PyNoAppError:
+        #don't want to build an app unless its necessary
+        app = wx.App()
+        wx_pick_directory()
